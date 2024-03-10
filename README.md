@@ -28,8 +28,8 @@ si se está usando python3:
 	pip install django djangorestframework
 ```
     
-* para corroborar que instalamos django usamos el comando: , 
- ```bash
+* para corroborar que instalamos django usamos el comando:
+```bash
 	pip list
 ```
-	el cual nos enlista todas las librerías que instalamos en el entorno virtual
+el cual nos enlista todas las librerías que instalamos en el entorno virtual
