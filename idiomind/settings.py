@@ -90,11 +90,11 @@ DATABASES = {
 
        'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'IDIOMIND_DATABASE',
+        'NAME': 'railway',
         'USER': 'root',
-        'PASSWORD': '123456',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'PASSWORD': 'uxJdBcqdSwLMwrbMWefwfcwSRThfJDkO',
+        'HOST': 'monorail.proxy.rlwy.net',
+        'PORT': '13115',
     }
 }
 
