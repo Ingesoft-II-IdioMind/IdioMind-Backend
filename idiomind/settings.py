@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-oo7+4u3tx!6wrc9r5v41l^8oq#$5s(8_t-ykc=tf4z^l_z1qws
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app','now.sh','127.0.0.1','localhost']
 
 
 # Application definition
@@ -78,7 +78,17 @@ WSGI_APPLICATION = 'idiomind.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+  
+   # 'default': {
+   #     'ENGINE': 'django.db.backends.mysql',
+   #     'NAME': 'IDIOMIND_DATABASE',
+   #     'USER': 'root',
+   #     'PASSWORD': '123456',
+   #     'HOST': '127.0.0.1',
+   #     'PORT': '3306',
+   # }
+
+       'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'IDIOMIND_DATABASE',
         'USER': 'root',
@@ -87,6 +97,7 @@ DATABASES = {
         'PORT': '3306',
     }
 }
+
 
 
 # Password validation
@@ -129,7 +140,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+STATICFILES_DIRS = os.path.join(BASE_DIR, 'static'),
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 
 
 AUTH_USER_MODEL = 'Accounts.User'
