@@ -33,7 +33,7 @@ SECRET_KEY = getenv('DJANGO_SECRET_KEY',get_random_secret_key())
 DEBUG = getenv('DEBUG','False') == 'True'
 
 
-ALLOWED_HOSTS=getenv('DJANGO_ALLOWED_HOSTS','127.0.0.1,localhost').split()
+ALLOWED_HOSTS=getenv('DJANGO_ALLOWED_HOSTS','127.0.0.1,localhost').split(',')
 
 
 
@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-#    'Accounts',
+    'Accounts',
     'djoser',
 ]
 
@@ -88,23 +88,23 @@ WSGI_APPLICATION = 'idiomind.wsgi.application'
 
 DATABASES = {
   
-   # 'default': {
-   #     'ENGINE': 'django.db.backends.mysql',
-   #     'NAME': 'IDIOMIND_DATABASE',
-   #     'USER': 'root',
-   #     'PASSWORD': '123456',
-   #     'HOST': '127.0.0.1',
-   #     'PORT': '3306',
-   # }
-
-       'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'railway',
-        'USER': 'root',
-        'PASSWORD': 'uxJdBcqdSwLMwrbMWefwfcwSRThfJDkO',
-        'HOST': 'monorail.proxy.rlwy.net',
-        'PORT': '13115',
+    'default': {
+       'ENGINE': 'django.db.backends.mysql',
+       'NAME': 'IDIOMIND_DATABASE',
+       'USER': 'root',
+       'PASSWORD': '123456',
+       'HOST': '127.0.0.1',
+       'PORT': '3306',
     }
+
+  #     'default': {
+  #      'ENGINE': 'django.db.backends.mysql',
+  #      'NAME': 'railway',
+  #      'USER': 'root',
+  #      'PASSWORD': 'uxJdBcqdSwLMwrbMWefwfcwSRThfJDkO',
+  #      'HOST': 'monorail.proxy.rlwy.net',
+  #      'PORT': '13115',
+  #  }
 }
 
 
@@ -144,23 +144,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES':[
-
-    ],
-    'DEFAULT_PERMISSION_CLASSES':[
-        'rest_framework.permissions.IsAuthenticated'
-    ]
-}
 STATIC_ROOT = BASE_DIR/ 'static'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR/ 'media'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES':[
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
+
 
 DJOSER = {
-    'PASSWORD_RESET_CONFIRM_URL': 'password-reset/{uid}/{token}',
+    'PASSWORD_RESET_CONFIRM_URL':'password-reset/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'ACTIVATION_URL': 'activation/{uid}/{token}',
     'USER_CREATE_PASSWORD_RETYPE': True,
@@ -173,4 +172,4 @@ DJOSER = {
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'Accounts.User'
+AUTH_USER_MODEL = 'Accounts.UserAccount'
