@@ -151,7 +151,7 @@ STATIC_ROOT = BASE_DIR/ 'static'
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR/ 'media'
 
-AUTHENTICATIONS_BACKENDS = [
+AUTHENTICATION_BACKENDS = [
     'social_core.backends.google.GoogleOAuth2',
     #'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
@@ -174,7 +174,7 @@ DJOSER = {
     'USER_CREATE_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'TOKEN_MODEL': None,
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URLS': getenv('REDIRECT_URLS').split(',')
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URLS').split(',')
 }
 
 AUTH_COOKIE = 'access'
