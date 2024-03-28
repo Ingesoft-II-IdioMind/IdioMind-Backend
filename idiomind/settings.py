@@ -13,9 +13,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from os import getenv,path
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
+import dj_database_url
 import dotenv
 import pymysql
 
+DEVELOPMENT_MODE = getenv('DEVELOPMENT_MODE','False')=='True'
 
 pymysql.install_as_MySQLdb()
 
@@ -89,28 +91,24 @@ WSGI_APPLICATION = 'idiomind.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-  
-    'default': {
-       'ENGINE': 'django.db.backends.mysql',
-       'NAME': 'IDIOMIND_DATABASE',
-       'USER': 'root',
-       'PASSWORD': '123456',
-       'HOST': '127.0.0.1',
-       'PORT': '3306',
-    }
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+   
+        'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'IDIOMIND_DATABASE',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        }
 
-  #     'default': {
-  #      'ENGINE': 'django.db.backends.mysql',
-  #      'NAME': 'railway',
-  #      'USER': 'root',
-  #      'PASSWORD': 'uxJdBcqdSwLMwrbMWefwfcwSRThfJDkO',
-  #      'HOST': 'monorail.proxy.rlwy.net',
-  #      'PORT': '13115',
-  #  }
+
 }
-
-
+else:
+    DATABASES = {
+        'default': dj_database_url.parse(getenv('DATABASE_URL'))
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
