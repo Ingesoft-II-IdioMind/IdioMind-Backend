@@ -2,6 +2,8 @@
 # Create your views here.
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -118,3 +120,16 @@ class LogoutView(APIView):
 
         return response
 
+
+
+
+def list_users(request):
+    User = get_user_model()
+    # Recupera todos los usuarios
+    users = User.objects.all()
+
+    # Serializa los datos de usuario
+    user_data = [{'username': user.username, 'email': user.email} for user in users]
+
+    # Retorna una respuesta JSON con los datos de usuario
+    return JsonResponse({'users': user_data})
