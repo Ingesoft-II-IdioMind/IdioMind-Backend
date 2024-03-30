@@ -26,5 +26,8 @@ urlpatterns = [
    path('',include('Accounts.urls')),
     path('api/', include('djoser.urls')),
     path('api/', include('Accounts.urls')),
+
+    path('',include('Documents.urls'))
+
 ]
 

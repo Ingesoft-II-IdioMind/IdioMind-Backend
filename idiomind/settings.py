@@ -17,7 +17,7 @@ import dj_database_url
 import dotenv
 import pymysql
 
-DEVELOPMENT_MODE = getenv('DEVELOPMENT_MODE','False')=='True'
+
 
 pymysql.install_as_MySQLdb()
 
@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'Accounts',
+    'Documents',
     'djoser',
     'social_django',
 ]
@@ -91,9 +92,10 @@ WSGI_APPLICATION = 'idiomind.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+DEVELOPMENT_MODE = getenv('DEVELOPMENT_MODE','False')=='True'
+
 if DEVELOPMENT_MODE is True:
     DATABASES = {
-   
         'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'IDIOMIND_DATABASE',
@@ -105,10 +107,10 @@ if DEVELOPMENT_MODE is True:
 
 
 }
-else:
-    DATABASES = {
-        'default': dj_database_url.parse(getenv('DATABASE_URL'))
-    }
+#else:
+   # DATABASES = {
+   #     'default': dj_database_url.parse(getenv('DATABASE_URL'))
+   # }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
