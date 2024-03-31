@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/', include('djoser.urls')),
     path('api/', include('Accounts.urls')),
 
-    path('',include('Documents.urls'))
+    path('documents/',include('Documents.urls'))
 
 ]
 
