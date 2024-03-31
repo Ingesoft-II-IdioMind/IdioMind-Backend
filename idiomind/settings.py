@@ -107,10 +107,10 @@ if DEVELOPMENT_MODE is True:
 
 
 }
-#else:
-   # DATABASES = {
-   #     'default': dj_database_url.parse(getenv('DATABASE_URL'))
-   # }
+else:
+    DATABASES = {
+        'default': dj_database_url.parse(getenv('DATABASE_URL'))
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -194,7 +194,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 ]
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
-CORS_ALLOWED_ORIGINS = getenv('CORS_ALLOWED_ORIGINS','http://localhost:3000,http://127.0.0.1:3000,https://idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app').split(',')
+CORS_ALLOWED_ORIGINS = getenv('CORS_ALLOWED_ORIGINS','http://localhost:3000,http://127.0.0.1:3000,https://idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app,https://idiomind-backend-production.up.railway.app').split(',')
 
 CORS_ALLOW_CREDENTIALS = True
 
