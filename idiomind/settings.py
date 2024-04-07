@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'Accounts',
     'Documents',
+    'Mazos',
     'djoser',
     'social_django',
 ]

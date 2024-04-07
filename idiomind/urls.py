@@ -26,8 +26,7 @@ urlpatterns = [
    path('',include('Accounts.urls')),
     path('api/', include('djoser.urls')),
     path('api/', include('Accounts.urls')),
-
-    path('document/',include('Documents.urls'))
-
+    path('document/',include('Documents.urls')),
+    path('deck/',include('Mazos.urls'))
 ]
 
