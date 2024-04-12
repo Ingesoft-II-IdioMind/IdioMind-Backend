@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'Documents',
     'Mazos',
     'Flashcard',
+    'Notes',
     'djoser',
     'social_django',
 ]

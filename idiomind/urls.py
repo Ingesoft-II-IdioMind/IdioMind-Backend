@@ -19,8 +19,6 @@ from django.urls import path , include
 from django.conf.urls.static import static 
 from django.conf import settings
 
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
    path('',include('Accounts.urls')),
@@ -28,5 +26,6 @@ urlpatterns = [
     path('api/', include('Accounts.urls')),
     path('document/',include('Documents.urls')),
     path('deck/',include('Mazos.urls')),
-    path('flashcard/',include('Flashcard.urls'))
+    path('flashcard/',include('Flashcard.urls')),
+    path('note/',include('Notes.urls'))
 ]
