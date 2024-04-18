@@ -22,3 +22,11 @@ class PDFDocumentListSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         validated_data['user'] = user
         return PDFDocument.objects.create(**validated_data)
+    
+
+
+class TranslatePromptSerializer(serializers.Serializer):
+    word = serializers.CharField(max_length=30)
+    language = serializers.CharField(max_length=30)
+    sentence = serializers.CharField(required=False, allow_blank=True,max_length=255)
+
