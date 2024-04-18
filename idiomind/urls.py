@@ -28,5 +28,6 @@ urlpatterns = [
     path('api/', include('Accounts.urls')),
     path('document/',include('Documents.urls')),
     path('deck/',include('Mazos.urls')),
-    path('flashcard/',include('Flashcard.urls'))
+    path('flashcard/',include('Flashcard.urls')),
+    path('idioms/',include('idiomas.urls'))
 ]
