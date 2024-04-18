@@ -1,11 +1,10 @@
-import os
+from idiomind.settings import API_KEY
 import google.generativeai as genai
 import json
 
 def translate_word(word, language, sentence=None):
 
-    os.environ["API_KEY"] = "AIzaSyCAMvkfzrOlz6GXgXHLPNtyLewL_y69pT8"
-    genai.configure(api_key=os.environ["API_KEY"])
+    genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel('gemini-pro')
 
     if sentence:

@@ -30,6 +30,7 @@ if path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
 
 SECRET_KEY = getenv('DJANGO_SECRET_KEY',get_random_secret_key())
+API_KEY = getenv('GEMINI_API_KEY',get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv('DEBUG','False') == 'True'
