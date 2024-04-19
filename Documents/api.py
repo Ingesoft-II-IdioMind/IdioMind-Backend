@@ -3,7 +3,7 @@ from .models import PDFDocument
 from .serializers import PDFDocumentCreateSerializer,PDFDocumentListSerializer,TranslatePromptSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from .utils import translate_word
+from .utils import translate_word,subir_pdf
 from rest_framework.views import APIView
 
 class PDFDocumentListViewSet(viewsets.ModelViewSet):
@@ -32,17 +32,15 @@ class PDFDocumentCreateViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action == 'create':
-            # Solo permitir la creación de PDFs a usuarios autenticados
             return [permissions.IsAuthenticated()]
         else:
-            # Permitir todas las demás operaciones a cualquier usuario
+
             return [permissions.AllowAny()]
         
         
     def perform_create(self, serializer):
-        # Asignar automáticamente el usuario autenticado al crear el PDF
         serializer.save(user=self.request.user)
-
+        serializer.instance.save()
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:
@@ -59,11 +57,7 @@ class TranslateWordViewSet(viewsets.ViewSet):
             word = serializer.validated_data['word']
             language = serializer.validated_data['language']
             sentence = serializer.validated_data.get('sentence')
-            
-            # Llama a tu función de traducción
             translation_data = translate_word(word, language, sentence)
-            
-            # Retorna la respuesta en formato JSON
             return Response(translation_data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

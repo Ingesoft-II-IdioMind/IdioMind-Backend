@@ -1,10 +1,10 @@
-from idiomind.settings import API_KEY
+from idiomind import settings
 import google.generativeai as genai
+from firebase_admin import storage
 import json
 
 def translate_word(word, language, sentence=None):
-
-    genai.configure(api_key=API_KEY)
+    genai.configure(api_key=settings.API_KEY)
     model = genai.GenerativeModel('gemini-pro')
 
     if sentence:
@@ -31,3 +31,21 @@ def translate_word(word, language, sentence=None):
         'description': description or 'None',  # Si no hay descripción, establecer en 'None'
         'examples': examples,
     }
+
+def subir_pdf(pdf_file):
+    try:
+        bucket_name = settings.bucket_name
+        # Obtén el nombre del bucket de almacenamiento desde la configuración
+        # Obtén una referencia al archivo en Firebase Storage
+        bucket = storage.bucket(bucket_name)
+        blob = bucket.blob(pdf_file.name)
+      
+        # Sube el archivo PDF al depósito de Firebase Storage
+        blob.upload_from_file(pdf_file)
+        
+        # Devuelve la URL de descarga del archivo recién subido
+        return blob.public_url
+    except Exception as e:
+        # Maneja cualquier excepción que pueda ocurrir durante la carga del archivo
+        print(f"Error al subir el archivo PDF a Firebase Storage: {e}")
+        return None

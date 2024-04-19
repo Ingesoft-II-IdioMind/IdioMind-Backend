@@ -8,4 +8,4 @@ class PDFDocument(models.Model):
     autor = models.CharField(max_length=255)   # Definir la longitud máxima del autor
     fecha_subida = models.DateField(auto_now_add=True)          # Puedes especificar el formato de fecha si lo deseas
     ultima_vez_abierto = models.DateField(null=True, blank=True)  
-    base64 = models.TextField()
+    archivo_url = models.URLField(null=True, blank=True,max_length=1024)

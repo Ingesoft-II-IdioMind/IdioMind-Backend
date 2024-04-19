@@ -9,13 +9,15 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import json
 from os import getenv,path
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
 import dj_database_url
 import dotenv
 import pymysql
+import firebase_admin
+from firebase_admin import storage,credentials
 
 
 
@@ -29,10 +31,16 @@ dotenv_file = BASE_DIR / '.env.local'
 if path.isfile(dotenv_file):
     dotenv.load_dotenv(dotenv_file)
 
-SECRET_KEY = getenv('DJANGO_SECRET_KEY',get_random_secret_key())
-API_KEY = getenv('GEMINI_API_KEY',get_random_secret_key())
+SECRET_KEY = getenv('DJANGO_SECRET_KEY',get_random_secret_key()) #secret key de django
+API_KEY = getenv('GEMINI_API_KEY',get_random_secret_key()) #key de la api de gemini
+firebase_credentials_str=getenv('FIREBASE_CREDENTIALS',get_random_secret_key())
+FIREBASE_CREDENTIALS = json.loads(firebase_credentials_str)
+bucket_name = 'idiomind-85eb9.appspot.com'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+cred = credentials.Certificate(FIREBASE_CREDENTIALS)
+firebase_admin.initialize_app(cred)
+storage_client = storage.bucket(bucket_name)
+
 DEBUG = getenv('DEBUG','False') == 'True'
 
 
