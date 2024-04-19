@@ -38,11 +38,10 @@ def subir_pdf(pdf_file):
         # Obtén el nombre del bucket de almacenamiento desde la configuración
         # Obtén una referencia al archivo en Firebase Storage
         bucket = storage.bucket(bucket_name)
-        blob = bucket.blob(pdf_file.name)
-      
+        blob = bucket.blob("Documents/" + pdf_file.name)      
         # Sube el archivo PDF al depósito de Firebase Storage
-        blob.upload_from_file(pdf_file)
-        
+        blob.upload_from_file(pdf_file)   
+        blob.make_public()         
         # Devuelve la URL de descarga del archivo recién subido
         return blob.public_url
     except Exception as e:

@@ -3,8 +3,7 @@ from .models import PDFDocument
 from .serializers import PDFDocumentCreateSerializer,PDFDocumentListSerializer,TranslatePromptSerializer
 from rest_framework.response import Response
 from rest_framework import status
-from .utils import translate_word,subir_pdf
-from rest_framework.views import APIView
+from .utils import translate_word
 
 class PDFDocumentListViewSet(viewsets.ModelViewSet):
     queryset = PDFDocument.objects.all()
