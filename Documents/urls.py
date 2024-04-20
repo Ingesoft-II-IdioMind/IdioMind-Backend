@@ -1,9 +1,8 @@
 from rest_framework import routers
-from .api import PDFDocumentListViewSet,PDFDocumentCreateViewSet,TranslateWordViewSet
+from .api import PDFDocumentCreateViewSet,TranslateWordViewSet
 router = routers.DefaultRouter()
 
-router.register('api/list',PDFDocumentListViewSet,'documents-list')
-router.register('api/create',PDFDocumentCreateViewSet,'documents-create')
+router.register('api',PDFDocumentCreateViewSet,'documents-create')
 router.register('api/translate',TranslateWordViewSet,'translate-word')
 
 

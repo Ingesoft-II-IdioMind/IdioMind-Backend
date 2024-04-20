@@ -1,30 +1,11 @@
 from rest_framework import viewsets , permissions
 from .models import PDFDocument
-from .serializers import PDFDocumentCreateSerializer,PDFDocumentListSerializer,TranslatePromptSerializer
+from .serializers import PDFDocumentCreateSerializer,TranslatePromptSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .utils import translate_word
 
-class PDFDocumentListViewSet(viewsets.ModelViewSet):
-    queryset = PDFDocument.objects.all()
-    serializer_class = PDFDocumentListSerializer
 
-    def get_permissions(self):
-        if self.action == 'create':
-            # Solo permitir la creación de PDFs a usuarios autenticados
-            return [permissions.IsAuthenticated()]
-        else:
-            # Permitir todas las demás operaciones a cualquier usuario
-            return [permissions.AllowAny()]
-    
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_authenticated:
-            return PDFDocument.objects.filter(user=user)
-        else:
-            return PDFDocument.objects.none()
-        
 class PDFDocumentCreateViewSet(viewsets.ModelViewSet):
     queryset = PDFDocument.objects.all()
     serializer_class = PDFDocumentCreateSerializer
@@ -33,13 +14,13 @@ class PDFDocumentCreateViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return [permissions.IsAuthenticated()]
         else:
-
             return [permissions.AllowAny()]
         
         
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         serializer.instance.save()
+
     def get_queryset(self):
         user = self.request.user
         if user.is_authenticated:

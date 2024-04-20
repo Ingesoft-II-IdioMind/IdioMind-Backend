@@ -6,8 +6,8 @@ class PDFDocumentCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = PDFDocument
-        fields = ('id', 'user', 'titulo', 'autor', 'fecha_subida', 'ultima_vez_abierto', 'archivo_pdf','archivo_url')
-        read_only_fields = ('id', 'user', 'fecha_subida', 'ultima_vez_abierto','archivo_url')
+        fields = ('id', 'user', 'titulo', 'autor', 'fecha_subida', 'ultima_vez_abierto', 'archivo_pdf','archivo_url','portada_url')
+        read_only_fields = ('id', 'user', 'fecha_subida', 'ultima_vez_abierto','archivo_url','portada_url')
 
     def create(self, validated_data):
         user = self.context['request'].user
@@ -19,17 +19,6 @@ class PDFDocumentCreateSerializer(serializers.ModelSerializer):
         # Agrega la URL del archivo en Firebase Storage a los datos validados
         validated_data['archivo_url'] = url_archivo
 
-        return PDFDocument.objects.create(**validated_data)
-    
-
-class PDFDocumentListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PDFDocument
-        fields = ('id', 'user', 'titulo','autor','fecha_subida','ultima_vez_abierto')
-        read_only_fields = ('id', 'user', 'titulo','autor','fecha_subida','ultima_vez_abierto')
-    def create(self,validated_data):
-        user = self.context['request'].user
-        validated_data['user'] = user
         return PDFDocument.objects.create(**validated_data)
     
 

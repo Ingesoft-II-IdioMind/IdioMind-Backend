@@ -9,3 +9,4 @@ class PDFDocument(models.Model):
     fecha_subida = models.DateField(auto_now_add=True)          # Puedes especificar el formato de fecha si lo deseas
     ultima_vez_abierto = models.DateField(null=True, blank=True)  
     archivo_url = models.URLField(null=True, blank=True,max_length=1024)
+    portada_url = models.URLField(null=True, blank=True,max_length=1024)
