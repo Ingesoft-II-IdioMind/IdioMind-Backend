@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Deck
-from Flashcard.models import Flashcard
+
 
 class DeckSerializer(serializers.ModelSerializer):
     flashcards_count = serializers.IntegerField(source='flashcards.count', read_only=True)

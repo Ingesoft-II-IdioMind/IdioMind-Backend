@@ -29,5 +29,6 @@ urlpatterns = [
     path('document/',include('Documents.urls')),
     path('deck/',include('Mazos.urls')),
     path('flashcard/',include('Flashcard.urls')),
-    path('idioms/',include('idiomas.urls'))
+    path('idioms/',include('idiomas.urls')),
+    path('note/',include('Notes.urls')),
 ]
