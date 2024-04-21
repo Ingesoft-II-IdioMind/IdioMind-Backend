@@ -2,6 +2,15 @@ from idiomind import settings
 from firebase_admin import storage
 import json
 import requests
+import fitz
+import tempfile
+from urllib import request
+from PIL import Image
+from django.core.management.utils import get_random_secret_key
+from google.oauth2 import service_account
+import firebase_admin
+from firebase_admin import storage,credentials
+from os import getenv
 
 def translate_word(word, language, sentence=None):
     api_key=settings.API_KEY
@@ -36,19 +45,49 @@ def translate_word(word, language, sentence=None):
     return translation,definition, examples
 
 
-def subir_pdf(pdf_file):
+def subir_pdf(pdf_file,mail):
     try:
+       
         bucket_name = settings.bucket_name
-        # Obtén el nombre del bucket de almacenamiento desde la configuración
-        # Obtén una referencia al archivo en Firebase Storage
         bucket = storage.bucket(bucket_name)
-        blob = bucket.blob("Documents/" + pdf_file.name)      
-        # Sube el archivo PDF al depósito de Firebase Storage
-        blob.upload_from_file(pdf_file)   
-        blob.make_public()         
+        img = pdf_to_png(pdf_file)
+        temp_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
+        img.save(temp_file.name)
+        pdf_name = pdf_file.name
+        existing_files = [blob.name for blob in bucket.list_blobs(prefix="Documents/")]
+        existing_pdfs = [file for file in existing_files if file.endswith(pdf_name)]
+        if existing_pdfs:
+            pdf_name_parts = pdf_name.split(".")
+            base_name = ".".join(pdf_name_parts[:-1])
+            extension = pdf_name_parts[-1]
+            counter = 1
+            new_pdf_name = f"{base_name}_{mail}_{counter}.{extension}"
+            while "Documents/" + new_pdf_name in existing_files:
+                counter += 1
+                new_pdf_name = f"{base_name}_{mail}_{counter}.{extension}"
+        else:
+            new_pdf_name = f"{pdf_name[:-4]}_{mail}_1"
+        blob = bucket.blob("Documents/" + new_pdf_name + ".pdf")      
+        blobportada = bucket.blob("images/" + new_pdf_name + ".png")     
+        blob.upload_from_file(pdf_file, rewind=True)
+        blobportada.upload_from_file(temp_file, rewind=True)
+
+        blob.make_public()   
+        blobportada.make_public()      
         # Devuelve la URL de descarga del archivo recién subido
-        return blob.public_url
+        return blob.public_url, blobportada.public_url
     except Exception as e:
-        # Maneja cualquier excepción que pueda ocurrir durante la carga del archivo
         print(f"Error al subir el archivo PDF a Firebase Storage: {e}")
         return None
+
+
+def pdf_to_png(pdf_file):
+    # Abrir el PDF y obtener el pixmap de la primera página
+    pdf = fitz.open(stream=pdf_file.read())
+    page = pdf.load_page(0)
+    pix = page.get_pixmap()
+
+    # Convertir el pixmap a una imagen PIL
+    img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
+
+    return img

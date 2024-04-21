@@ -27,7 +27,6 @@ class PDFDocumentCreateViewSet(viewsets.ModelViewSet):
             return PDFDocument.objects.filter(user=user)
         else:
             return PDFDocument.objects.none()
-        
 
 
 class TranslateWordViewSet(viewsets.ViewSet):

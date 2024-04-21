@@ -3,7 +3,7 @@ from .api import PDFDocumentCreateViewSet,TranslateWordViewSet
 router = routers.DefaultRouter()
 
 router.register('api',PDFDocumentCreateViewSet,'documents-create')
-router.register('api/translate',TranslateWordViewSet,'translate-word')
+router.register('translate',TranslateWordViewSet,'translate-word')
 
 
 

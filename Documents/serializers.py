@@ -15,11 +15,17 @@ class PDFDocumentCreateSerializer(serializers.ModelSerializer):
         # Extrae el archivo PDF de los datos validados
         archivo_pdf = validated_data.pop('archivo_pdf', None)
         # Llama a la función subir_pdf para subir el archivo PDF a Firebase Storage
-        url_archivo = subir_pdf(archivo_pdf)
-        # Agrega la URL del archivo en Firebase Storage a los datos validados
-        validated_data['archivo_url'] = url_archivo
-
-        return PDFDocument.objects.create(**validated_data)
+        if archivo_pdf:
+            url_archivo, url_portada = subir_pdf(archivo_pdf,user.email)
+            if url_archivo and url_portada:
+                # Agrega la URL del archivo en Firebase Storage a los datos validados
+                validated_data['archivo_url'] = url_archivo
+                validated_data['portada_url'] = url_portada
+                return PDFDocument.objects.create(**validated_data)
+            else:
+                raise serializers.ValidationError("Error al subir el archivo PDF a Firebase Storage")
+        else:
+            raise serializers.ValidationError("Archivo PDF no proporcionado")
     
 
 
