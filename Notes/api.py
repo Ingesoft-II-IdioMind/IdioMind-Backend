@@ -32,3 +32,12 @@ class NoteViewset(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user,highlight_areas=self.request.data.get('highlight_areas', []))
+
+class DocumentListViewset(viewsets.ModelViewSet):
+    serializer_class = NoteSerializer
+    def get_queryset(self):
+        documento_id = self.kwargs.get('documento_id')
+        if documento_id:
+            return Note.objects.filter(documento_id=documento_id, documento__user=self.request.user)
+        else:
+            return Note.objects.none()
