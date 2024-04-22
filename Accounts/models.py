@@ -1,6 +1,7 @@
 from typing import Any
 from django.db import models
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser, PermissionsMixin
+from idiomas.models import Idiom
 
 
 # Create your models here.
@@ -35,6 +36,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     email = models.EmailField(max_length=255,unique=True)
+    native_idiom = models.ForeignKey(Idiom,on_delete=models.DO_NOTHING,null=True)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

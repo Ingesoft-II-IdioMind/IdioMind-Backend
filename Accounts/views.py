@@ -1,10 +1,9 @@
 #from django.shortcuts import render
 # Create your views here.
-
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
 from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.http import JsonResponse
-
+from .serializers import UserSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -123,13 +122,14 @@ class LogoutView(APIView):
 
 
 
-def list_users(request):
-    User = get_user_model()
-    # Recupera todos los usuarios
-    users = User.objects.all()
+class UserInfoView(generics.RetrieveAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserSerializer
 
-    # Serializa los datos de usuario
-    user_data = [{'username': user.username, 'email': user.email} for user in users]
+    def get_object(self):
+        return self.request.user
 
-    # Retorna una respuesta JSON con los datos de usuario
-    return JsonResponse({'users': user_data})
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
