@@ -6,6 +6,7 @@ from Accounts.models import UserAccount
 class Note(models.Model):
     user=models.ForeignKey(UserAccount,on_delete=models.CASCADE,null=True)
     documento=models.ForeignKey(PDFDocument,on_delete=models.CASCADE)
-    contenido=models.CharField(max_length=255)
+    contenido=models.CharField(max_length=511,default="")
+    cita = models.CharField(max_length=511,default="")
     fecha_creacion=models.DateTimeField(auto_now_add=True)
     highlight_areas = models.JSONField(default=list)

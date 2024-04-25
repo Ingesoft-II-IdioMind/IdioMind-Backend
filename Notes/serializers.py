@@ -10,7 +10,7 @@ class NoteSerializer(serializers.ModelSerializer):
     titulo = serializers.SerializerMethodField()
     class Meta:
         model = Note
-        fields = ('id','user','documento','titulo','contenido', 'fecha_creacion', 'highlight_areas')
+        fields = ('id','user','documento','titulo','contenido', 'fecha_creacion','cita','highlight_areas')
         read_only_fields = ('id','user','fecha_creacion')
 
     def get_titulo(self,obj):

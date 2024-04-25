@@ -26,6 +26,12 @@ class PDFDocumentCreateSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Error al subir el archivo PDF a Firebase Storage")
         else:
             raise serializers.ValidationError("Archivo PDF no proporcionado")
+        
+class PDFDocumentUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PDFDocument
+        fields = ('id', 'titulo', 'autor')
+        read_only_fields = ('id',)
     
 
 

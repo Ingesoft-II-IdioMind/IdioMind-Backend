@@ -1,6 +1,6 @@
 from rest_framework import viewsets , permissions
 from .models import PDFDocument
-from .serializers import PDFDocumentCreateSerializer,TranslatePromptSerializer
+from .serializers import PDFDocumentCreateSerializer,TranslatePromptSerializer,PDFDocumentUpdateSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from .utils import translate_word
@@ -8,7 +8,12 @@ from .utils import translate_word
 
 class PDFDocumentCreateViewSet(viewsets.ModelViewSet):
     queryset = PDFDocument.objects.all()
-    serializer_class = PDFDocumentCreateSerializer
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return PDFDocumentCreateSerializer
+        elif self.action == 'update':
+            return PDFDocumentUpdateSerializer
+        return PDFDocumentCreateSerializer  # Default serializer
 
     def get_permissions(self):
         if self.action == 'create':
