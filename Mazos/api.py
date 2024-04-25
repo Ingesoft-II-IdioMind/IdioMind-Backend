@@ -6,6 +6,7 @@ class DeckViewset(viewsets.ModelViewSet):
     queryset=Deck.objects.all()
     serializer_class=DeckSerializer
 
+    
     def get_permissions(self):
         if self.action=='create':
             return [permissions.IsAuthenticated()]
