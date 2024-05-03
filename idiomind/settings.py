@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'Notes',
     'djoser',
     'social_django',
+    'Gramatica'
 ]
 
 MIDDLEWARE = [

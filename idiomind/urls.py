@@ -31,4 +31,5 @@ urlpatterns = [
     path('flashcard/',include('Flashcard.urls')),
     path('idioms/',include('idiomas.urls')),
     path('note/',include('Notes.urls')),
+    path('grammar/',include('Gramatica.urls'))
 ]

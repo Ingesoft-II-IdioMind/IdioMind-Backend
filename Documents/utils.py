@@ -4,13 +4,8 @@ import json
 import requests
 import fitz
 import tempfile
-from urllib import request
 from PIL import Image
-from django.core.management.utils import get_random_secret_key
-from google.oauth2 import service_account
-import firebase_admin
-from firebase_admin import storage,credentials
-from os import getenv
+from firebase_admin import storage
 
 def translate_word(word, language, sentence=None):
     api_key=settings.API_KEY
