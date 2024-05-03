@@ -1,8 +1,8 @@
 from .models import Post
-from .serializers import PostSerializer
+from .serializers import PostSerializer,PostUpdateSerializer
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.response import Response
+
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -10,8 +10,14 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         # Usar el serializer PostSerializer solo para solicitudes de escritura si el usuario es un superusuario
-        if self.request.method in ['POST', 'PUT', 'PATCH'] and not self.request.user.is_superuser:
+        if self.request.method in ['POST'] and not self.request.user.is_superuser:
             raise PermissionDenied("Solo los superusuarios pueden crear o actualizar posts.")
+        if self.request.method in  ['PUT', 'PATCH'] and not self.request.user.is_superuser:
+            raise PermissionDenied("Solo los superusuarios pueden crear o actualizar posts.")
+        if self.request.method in ['POST']:
+            return PostSerializer
+        if self.request.method in  ['PUT', 'PATCH']:
+            return PostUpdateSerializer
         return PostSerializer
     
 
