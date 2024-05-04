@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class Post(models.Model):
     Titulo = models.CharField(max_length=128,null=True,blank=True)
     Fecha_publicacion = models.DateTimeField(auto_now_add=True)
