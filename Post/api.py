@@ -8,19 +8,12 @@ from rest_framework.response import Response
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
+    serializer_class = PostSerializer  # Usar PostSerializer como clase de serializador predeterminada
 
     def get_serializer_class(self):
-        # Usar el serializer PostSerializer solo para solicitudes de escritura si el usuario es un superusuario
-        if self.request.method == 'POST' and not self.request.user.is_superuser:
-            raise PermissionDenied("Solo los superusuarios pueden crear, actualizar o eliminar posts.")
-        elif self.request.method in ['PUT', 'PATCH', 'DELETE'] and not self.request.user.is_superuser:
-            raise PermissionDenied("Solo los superusuarios pueden crear, actualizar o eliminar posts.")
-        elif self.request.method == 'POST':
-            return PostSerializer
-        elif self.request.method in ['PUT', 'PATCH', 'DELETE']:
+        if self.request.method in ['PUT', 'PATCH', 'DELETE']:
             return PostUpdateSerializer
-        else:
-            return PostSerializer
+        return self.serializer_class  # Devolver la clase de serializador predeterminada para otros métodos HTTP
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -29,15 +22,24 @@ class PostViewSet(viewsets.ModelViewSet):
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def get_permissions(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return []
+        return super().get_permissions()
+
 
 class PostViewSetLast10(viewsets.ModelViewSet):
     serializer_class = PostSerializer
 
     def get_serializer_class(self):
-        # Usar el serializer PostSerializer solo para solicitudes de escritura si el usuario es un superusuario
-        if self.request.method in ['POST', 'PUT', 'PATCH','DELETE'] and not self.request.user.is_superuser:
+        if self.request.method in ['POST', 'PUT', 'PATCH', 'DELETE'] and not self.request.user.is_superuser:
             raise PermissionDenied("Solo los superusuarios pueden crear o actualizar posts.")
-        return PostSerializer
-    
+        return self.serializer_class
+
     def get_queryset(self):
         return Post.objects.order_by('-Fecha_publicacion')[:10]
+
+    def get_permissions(self):
+        if self.action == 'list' or self.action == 'retrieve':
+            return []
+        return super().get_permissions()
