@@ -69,7 +69,8 @@ INSTALLED_APPS = [
     'djoser',
     'social_django',
     'Gramatica',
-    'Post'
+    'Post',
+    'Suscriptions',
 ]
 
 MIDDLEWARE = [
