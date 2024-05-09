@@ -2,7 +2,6 @@ from . models import Post
 from rest_framework import serializers
 from .utils import subir_image
 
-
 class PostSerializer(serializers.ModelSerializer):
     image_file = serializers.FileField(write_only=True)
     class Meta:
