@@ -3,6 +3,7 @@ from .serializers import GrammarPromptSerializer
 from rest_framework import viewsets,status
 from rest_framework.response import Response 
 
+
 class GrammarViewSet(viewsets.ViewSet):
     def create(self,request):
         serializer =  GrammarPromptSerializer(data=request.data)
