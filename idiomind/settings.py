@@ -18,6 +18,7 @@ import dotenv
 import pymysql
 import firebase_admin
 from firebase_admin import storage,credentials
+import stripe
 
 
 
@@ -42,10 +43,10 @@ firebase_admin.initialize_app(cred)
 storage_client = storage.bucket(bucket_name)
 
 DEBUG = getenv('DEBUG','False') == 'True'
-
+stripe.api_key = getenv('stripe.api_key',get_random_secret_key())
 
 ALLOWED_HOSTS=getenv('DJANGO_ALLOWED_HOSTS','127.0.0.1,localhost,idiomind-backend-production.up.railway.app,idiomind-frontend.vercel.app,idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app').split(',')
-
+ALLOWED_HOST_PRODUCTION = getenv('ALLOWED_HOST_PRODUCTION')
 
 
 
@@ -71,6 +72,7 @@ INSTALLED_APPS = [
     'Gramatica',
     'Post',
     'Suscriptions',
+    'Transacciones'
 ]
 
 MIDDLEWARE = [
