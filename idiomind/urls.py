@@ -32,7 +32,7 @@ urlpatterns = [
     path('idioms/',include('idiomas.urls')),
     path('note/',include('Notes.urls')),
     path('grammar/',include('Gramatica.urls')),
- #   path('fonetic/',include('Fonetica.urls')),
+    path('fonetic/',include('Fonetica.urls')),
     path('post/',include('Post.urls')),
     path('api/stripe/', include('Transacciones.urls'))
 ]

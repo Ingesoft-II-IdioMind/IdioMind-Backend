@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'djoser',
     'social_django',
     'Gramatica',
+    'Fonetica',
     'Post',
     'Suscriptions',
     'Transacciones'
