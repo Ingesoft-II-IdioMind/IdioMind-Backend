@@ -167,10 +167,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR/ 'static'
+STATIC_ROOT = str(BASE_DIR.resolve() / 'static')
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR/ 'media'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 
 
 AUTHENTICATION_BACKENDS = [
