@@ -5,6 +5,7 @@ from gtts import gTTS
 import json
 from io import BytesIO
 from langdetect import detect
+import speech_recognition as sr
 
 def speakingExamples(content):
     language = detect(content)
@@ -45,3 +46,40 @@ def speakingExamples(content):
         base64_audio = base64.b64encode(audio_content.read()).decode('utf-8')
         pronunciation.append(base64_audio)
     return result, pronunciation
+
+
+
+def evaluate_pronunciation(audio_file, target_sentence):
+    # Initialize recognizer
+    r = sr.Recognizer()
+    # Load audio to memory
+    with sr.AudioFile(audio_file) as source:
+        audio_data = r.record(source)
+        text = r.recognize_google(audio_data, language="es-ES")
+    # # Use mysppron for detailed pronunciation analysis
+    # p = "Recording"
+    # c = "C:/Users/andru/Documents/IdioMind/tests/speaking/Mysp"
+    # score = mysp.mysppron(p, c)
+
+    # Compare the transcribed text with the target sentence
+    if text.lower() == target_sentence.lower():
+        # return "La pronunciación es correcta. Calificación: " + str(score) + ".", [], []
+        return "La pronunciación es correcta.", [], []
+    else:
+        # Split the transcribed text and target sentence into words
+        transcribed_words = text.split()
+        target_words = target_sentence.split()
+        
+        # Initialize lists to store correctly and incorrectly pronounced words
+        correct_words = []
+        incorrect_words = []
+
+        # Compare each word in the transcribed text with the corresponding word in the target sentence
+        for transcribed_word, target_word in zip(transcribed_words, target_words):
+            if transcribed_word.lower() == target_word.lower():
+                correct_words.append(target_word)
+            else:
+                incorrect_words.append(target_word)
+
+        # return "La pronunciación es incorrecta. Calificación: " + str(score) + ".", correct_words, incorrect_words
+        return "La pronunciación es incorrecta.", correct_words, incorrect_words
