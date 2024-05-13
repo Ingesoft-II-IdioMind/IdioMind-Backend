@@ -4,4 +4,5 @@ router = routers.DefaultRouter()
 
 router.register('space',GrammarViewSet,'grammar-phrase')
 
+
 urlpatterns = router.urls
