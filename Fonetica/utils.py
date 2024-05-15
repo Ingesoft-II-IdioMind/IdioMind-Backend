@@ -45,8 +45,12 @@ def speakingExamples(content):
         audio_content = BytesIO()
         tts.write_to_fp(audio_content)
         audio_content.seek(0)
-        audio_segment = AudioSegment.from_mp3(audio_content)
-        base64_audio = base64.b64encode(audio_segment.export(format='wav').read()).decode('utf-8')
+        # Convert the audio to WAV format
+        wav_audio_content = BytesIO()
+        audio_segment = AudioSegment.from_file(audio_content, format="mp3")
+        audio_segment.export(wav_audio_content, format="wav")
+        # Encode the WAV audio to base64
+        base64_audio = base64.b64encode(wav_audio_content.getvalue()).decode('utf-8')
         pronunciation.append(base64_audio)
     return result, pronunciation
 
