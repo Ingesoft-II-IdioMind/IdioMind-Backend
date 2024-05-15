@@ -8,5 +8,5 @@ class ExamplesGramaticPromptSerializer(serializers.Serializer):
 
     
 class FeedbackPromptSerializer(serializers.Serializer):
-    audio_file = serializers.FileField()
+    audio_file_base64 = serializers.CharField()
     target_sentence  = serializers.CharField(max_length=1024)

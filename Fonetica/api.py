@@ -18,9 +18,9 @@ class FeedbackViewSet(viewsets.ViewSet):
     def create(self,request):
         serializer =FeedbackPromptSerializer(data=request.data)
         if serializer.is_valid():
-            audio_file = serializer.validated_data['audio_file']
+            audio_file_base64 = serializer.validated_data['audio_file_base64']
             target_sentence = serializer.validated_data['target_sentence']
-            fonetic_feedback = evaluate_pronunciation(audio_file,target_sentence)
+            fonetic_feedback = evaluate_pronunciation(audio_file_base64,target_sentence)
             return Response(fonetic_feedback,status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
