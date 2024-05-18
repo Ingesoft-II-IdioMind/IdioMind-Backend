@@ -17,7 +17,6 @@ import dj_database_url
 import dotenv
 import pymysql
 import stripe
-import cloudinary_storage
 
 
 pymysql.install_as_MySQLdb()
@@ -56,7 +55,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'cloudinary',
-    'cloudinary_storage',
     'Accounts',
     'Documents',
     'Mazos',
