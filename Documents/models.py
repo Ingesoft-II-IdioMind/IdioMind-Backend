@@ -1,6 +1,7 @@
 from django.db import models
 from Accounts.models import UserAccount
 
+
 # Create your models here.
 class PDFDocument(models.Model):
     user = models.ForeignKey(UserAccount, on_delete=models.CASCADE)
