@@ -18,7 +18,6 @@ import dotenv
 import pymysql
 import stripe
 
-
 pymysql.install_as_MySQLdb()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
