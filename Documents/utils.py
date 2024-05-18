@@ -1,11 +1,15 @@
-from idiomind import settings
-from firebase_admin import storage
+from django.conf import settings
+import cloudinary
+from cloudinary.uploader import upload
 import json
 import requests
 import fitz
 import tempfile
 from PIL import Image
-from firebase_admin import storage
+from datetime import datetime
+import os
+
+
 
 def translate_word(word, language, sentence=None):
     api_key=settings.API_KEY
@@ -40,49 +44,36 @@ def translate_word(word, language, sentence=None):
     return translation,definition, examples
 
 
-def subir_pdf(pdf_file,mail):
+
+
+def subir_pdf(pdf_file, mail):
     try:
-       
-        bucket_name = settings.bucket_name
-        bucket = storage.bucket(bucket_name)
         img = pdf_to_png(pdf_file)
         temp_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
         img.save(temp_file.name)
-        pdf_name = pdf_file.name
-        existing_files = [blob.name for blob in bucket.list_blobs(prefix="Documents/")]
-        existing_pdfs = [file for file in existing_files if file.endswith(pdf_name)]
-        if existing_pdfs:
-            pdf_name_parts = pdf_name.split(".")
-            base_name = ".".join(pdf_name_parts[:-1])
-            extension = pdf_name_parts[-1]
-            counter = 1
-            new_pdf_name = f"{base_name}_{mail}_{counter}.{extension}"
-            while "Documents/" + new_pdf_name in existing_files:
-                counter += 1
-                new_pdf_name = f"{base_name}_{mail}_{counter}.{extension}"
-        else:
-            new_pdf_name = f"{pdf_name[:-4]}_{mail}_1"
-        blob = bucket.blob("Documents/" + new_pdf_name + ".pdf")      
-        blobportada = bucket.blob("images/" + new_pdf_name + ".png")     
-        blob.upload_from_file(pdf_file, rewind=True)
-        blobportada.upload_from_file(temp_file, rewind=True)
+        temp_file.seek(0)
 
-        blob.make_public()   
-        blobportada.make_public()      
-        # Devuelve la URL de descarga del archivo recién subido
-        return blob.public_url, blobportada.public_url
-    except Exception as e:
-        print(f"Error al subir el archivo PDF a Firebase Storage: {e}")
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        filename_without_extension = os.path.splitext(pdf_file.name)[0]
+        unique_filename = f"{timestamp}_{mail}_{filename_without_extension}"
+        pdf_file.seek(0)
+        upload_pdf = cloudinary.uploader.upload(pdf_file, folder="Documents", public_id=unique_filename, resource_type="raw")
+        upload_cover = cloudinary.uploader.upload( temp_file, folder="Images", public_id=unique_filename, resource_type="image")
+        secure_url_pdf = upload_pdf["secure_url"]
+        secure_url_cover =  upload_cover["secure_url"]
+        
+        # Devolver la URL del archivo PDF
+        return secure_url_pdf,secure_url_cover
+    except cloudinary.exceptions.Error as e:
+        print(f"Error al subir el archivo PDF a Cloudinary: {e}")
         return None
 
 
 def pdf_to_png(pdf_file):
-    # Abrir el PDF y obtener el pixmap de la primera página
     pdf = fitz.open(stream=pdf_file.read())
     page = pdf.load_page(0)
     pix = page.get_pixmap()
-
     # Convertir el pixmap a una imagen PIL
     img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-
+    pdf_file.seek(0)
     return img

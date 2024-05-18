@@ -16,10 +16,8 @@ from django.core.management.utils import get_random_secret_key
 import dj_database_url
 import dotenv
 import pymysql
-import firebase_admin
-from firebase_admin import storage,credentials
 import stripe
-
+import cloudinary_storage
 
 
 pymysql.install_as_MySQLdb()
@@ -34,13 +32,9 @@ if path.isfile(dotenv_file):
 
 SECRET_KEY = getenv('DJANGO_SECRET_KEY',get_random_secret_key()) #secret key de django
 API_KEY = getenv('GEMINI_API_KEY',get_random_secret_key()) #key de la api de gemini
-firebase_credentials_str=getenv('FIREBASE_CREDENTIALS',get_random_secret_key())
-FIREBASE_CREDENTIALS = json.loads(firebase_credentials_str)
-bucket_name = 'idiomind-85eb9.appspot.com'
 
-cred = credentials.Certificate(FIREBASE_CREDENTIALS)
-firebase_admin.initialize_app(cred)
-storage_client = storage.bucket(bucket_name)
+
+
 
 DEBUG = getenv('DEBUG','False') == 'True'
 stripe.api_key = getenv('stripe.api_key',get_random_secret_key())
@@ -61,6 +55,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
     'Accounts',
     'Documents',
     'Mazos',
@@ -231,3 +227,13 @@ CORS_ALLOW_CREDENTIALS = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'Accounts.UserAccount'
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': getenv('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': getenv('CLOUDINARY_API_KEY'),
+    'API_SECRET': getenv('CLOUDINARY_API_SECRET'),
+}
+ 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    
