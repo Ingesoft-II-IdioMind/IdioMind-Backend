@@ -1,0 +1,12 @@
+{
+    "environments": {
+      "production": {
+        "buildpacks": [
+          {
+            "url": "https://github.com/railwayapp/starters.git",
+            "path": "languages/python"
+          }
+        ]
+      }
+    }
+  }
