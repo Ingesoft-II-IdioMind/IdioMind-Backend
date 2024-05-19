@@ -1,12 +1,23 @@
 {
-    "environments": {
-      "production": {
-        "buildpacks": [
-          {
-            "url": "https://github.com/railwayapp/starters.git",
-            "path": "languages/python"
+    "$schema": "https://railway.app/railway.schema.json",
+    "build": {
+      "builder": "NIXPACKS",
+      "nixpacksVersion": "1.16.0",
+      "nixpacksPlan": {
+        "phases": {
+          "myPhase": {
+            "name": "install ffmpeg",
+            "nixPkgs": [
+              "ffmpeg"
+            ]
           }
-        ]
+        }
       }
+    },
+    "deploy": {
+      "numReplicas": 1,
+      "restartPolicyType": "ON_FAILURE",
+      "restartPolicyMaxRetries": 1
     }
   }
+  
