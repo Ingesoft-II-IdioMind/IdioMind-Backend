@@ -15,7 +15,11 @@ def speakingExamples(content):
     language = detect(content)
     api_key = "AIzaSyCAMvkfzrOlz6GXgXHLPNtyLewL_y69pT8"
 
-    prompt = " forget the previous prompt, pretend that this is the first question. You are an expert assistant providing responses in JSON format. Provide five example sentences where you use the string " + content + ". The examples must be in " + language + ". The response format must be: \"examples\":[\"<Example1>\",\"<Example2>\",\"<Example3>\"]}."
+    prompt = (f"forget the previous prompt, pretend that this is the first question. "
+              f"You are an expert assistant providing responses in JSON format. "
+              f"Provide five example sentences where you use the string '{content}'. "
+              f"The examples must be in {language}. "
+              f"The response format must be: \"examples\":[\"<Example1>\",\"<Example2>\",\"<Example3>\"].")
 
     endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
     headers = {
@@ -31,19 +35,28 @@ def speakingExamples(content):
 
     response = requests.post(endpoint, headers=headers, params={"key": api_key}, json=data)
     json_content = response.json()
-    print(json_content, "4")
-    result = json_content.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', None)
-    print(result, "3")
     
-    # Parse the result as JSON and extract the "examples" list
-    result_json = json.loads(result)
-    print(result_json, "2")
+    # Extract the text content
+    result_text = json_content.get('candidates', [{}])[0].get('content', {}).get('parts', [{}])[0].get('text', None)
+    
+    if not result_text:
+        raise ValueError("The response did not contain any text content.")
+
+    # Parse the text content as JSON
+    result_json = json.loads(result_text)
+    
+    # Extract the "examples" list
     examples = result_json.get("examples", [])
-    print(examples, "1")
     
+    if not examples:
+        raise ValueError("No examples were found in the response.")
+
+    # Print extracted examples for debugging
+    print(examples)
+
     # Create a list of pronunciation audios
     pronunciation = []
-    ffmpeg_path = 'ffmpeg'  # Adjust path to your ffmpeg.exe
+    ffmpeg_path = 'ffmpeg'  # Adjust path to your ffmpeg executable
 
     for example in examples:
         audio_content = BytesIO()
@@ -76,8 +89,9 @@ def speakingExamples(content):
         os.remove(temp_mp3_file.name)
         temp_ogg_file.close()  # Ensure the file is closed before removing
         os.remove(temp_ogg_file.name)
+       
 
-    return result, pronunciation
+    return examples, pronunciation
 
 
 
