@@ -5,5 +5,6 @@ class Suscription(models.Model):
     estado = models.BooleanField(default=True)
     dias_duracion = models.IntegerField()  # Duration in days
 
+    
     def __str__(self):
         return self.nombre_subscription
