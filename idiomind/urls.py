@@ -35,4 +35,4 @@ urlpatterns = [
     path('fonetic/',include('Fonetica.urls')),
     path('post/',include('Post.urls')),
     path('api/stripe/', include('Transacciones.urls'))
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
