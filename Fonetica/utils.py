@@ -1,5 +1,5 @@
 import base64
-from idiomind import settings
+from django.conf import settings
 import requests
 from gtts import gTTS
 import json
@@ -13,7 +13,7 @@ import subprocess
 
 def speakingExamples(content):
     language = detect(content)
-    api_key = "AIzaSyCAMvkfzrOlz6GXgXHLPNtyLewL_y69pT8"
+    api_key = settings.API_KEY
 
     prompt = (f"forget the previous prompt, pretend that this is the first question. "
               f"You are an expert assistant providing responses in JSON format. "
