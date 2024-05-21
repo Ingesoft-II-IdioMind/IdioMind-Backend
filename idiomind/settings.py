@@ -35,7 +35,7 @@ API_KEY = getenv('GEMINI_API_KEY',get_random_secret_key()) #key de la api de gem
 
 
 DEBUG = getenv('DEBUG','False') == 'True'
-stripe.api_key = getenv('stripe.api_key',get_random_secret_key())
+STRIPE_API_KEY = getenv('stripe.api_key',get_random_secret_key())
 
 ALLOWED_HOSTS=getenv('DJANGO_ALLOWED_HOSTS','127.0.0.1,localhost,idiomind-backend-production.up.railway.app,idiomind-frontend.vercel.app,idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app').split(',')
 ALLOWED_HOST_PRODUCTION = getenv('ALLOWED_HOST_PRODUCTION')

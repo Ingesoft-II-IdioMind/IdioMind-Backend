@@ -1,14 +1,13 @@
 from rest_framework.views import APIView
-from idiomind.settings import stripe,ALLOWED_HOST_PRODUCTION
+from django.conf import settings
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import permission_classes
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.response import Response
-
-
-
+import stripe
+stripe.api_key = settings.STRIPE_API_KEY
 
 @permission_classes([AllowAny])
 class MonthlySubscriptionCheckoutView(APIView):
@@ -22,8 +21,8 @@ class MonthlySubscriptionCheckoutView(APIView):
             ],
             payment_method_types=['card',],
             mode='payment', 
-            success_url= ALLOWED_HOST_PRODUCTION  + '/?success=true&session_id={CHECKOUT_SESSION_ID}',
-            cancel_url= ALLOWED_HOST_PRODUCTION  + '/?canceled=true',
+            success_url= settings.ALLOWED_HOST_PRODUCTION  + '/?success=true&session_id={CHECKOUT_SESSION_ID}',
+            cancel_url= settings.ALLOWED_HOST_PRODUCTION  + '/?canceled=true',
         )
         return redirect(monthly_subscription_session.url, code=303)
 
@@ -40,8 +39,8 @@ class AnnualSubscriptionCheckoutView(APIView):
                 ],
                 payment_method_types=['card',],
                 mode='payment',
-                success_url= ALLOWED_HOST_PRODUCTION  + '/?success=true&session_id={CHECKOUT_SESSION_ID}',
-                cancel_url= ALLOWED_HOST_PRODUCTION  + '/?canceled=true',
+                success_url= settings.ALLOWED_HOST_PRODUCTION  + '/?success=true&session_id={CHECKOUT_SESSION_ID}',
+                cancel_url= settings.ALLOWED_HOST_PRODUCTION  + '/?canceled=true',
             )
             return redirect(annual_subscription_session.url, code=303)
         except Exception as e:
