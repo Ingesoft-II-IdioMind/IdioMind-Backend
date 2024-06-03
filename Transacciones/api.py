@@ -21,6 +21,7 @@ class CapturarOrderPaypal(APIView):
         try:
             order_id = request.data['orderID']
             response = capture_order(order_id)
+            print(response)
             return Response(response,status=status.HTTP_200_OK)
         except Exception as e:
             return Response({'error capture_order'})

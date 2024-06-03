@@ -13,19 +13,20 @@ def generateAccessToken():
     auth = f"{PAYPAL_CLIENT_ID}:{PAYPAL_CLIENT_SECRET}"
     auth = base64.b64encode(auth.encode()).decode("utf-8")
 
-    respose = requests.post(
+    response = requests.post(
             BASE_URL+"/v1/oauth2/token",
             data={"grant_type": "client_credentials"},
             headers={"Authorization": f"Basic {auth}"}
     )
-    data = respose.json()
+    data = response.json()
+    #print(data["access_token"])
     return data["access_token"]
 
 
 def create_order(productos):
     print(productos)
     try:
-        access_token = generateAccessToken()
+        accsess_token = generateAccessToken()
         url = BASE_URL + "/v2/checkout/orders"
         payload = {
             "intent":"CAPTURE",
@@ -41,12 +42,12 @@ def create_order(productos):
         }
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {access_token}"
+            "Authorization": f"Bearer {accsess_token}"
         }
 
-        response = requests.post(url, json=payload, headers=headers)
+        response = requests.post(url, headers=headers , json=payload)
         
-        print("---response---", response.json())
+        #print("---response---", response.json())
         return response.json()
     except Exception as e:
         print("*******")
@@ -55,6 +56,7 @@ def create_order(productos):
 def capture_order(orderID):
     access_token = generateAccessToken()
     url = BASE_URL + f"/v2/checkout/orders/{orderID}/capture"
+    print(url)
 
     headers = {
         "Content-Type":"application/json",
@@ -62,4 +64,5 @@ def capture_order(orderID):
     }
 
     response = requests.post(url, headers=headers)
+    print("---response---", response.json())
     return response.json()
