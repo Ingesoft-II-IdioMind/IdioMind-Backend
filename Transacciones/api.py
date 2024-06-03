@@ -2,10 +2,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .utils import create_order,capture_order,generateAccessToken
+from rest_framework.permissions import AllowAny
 
 
 class CrearOrden(APIView):
-
+    permission_classes = [AllowAny]
     def post(self,request):
         order = create_order('Productos')
         print("====")
@@ -15,7 +16,7 @@ class CrearOrden(APIView):
 # Create your views here.
 
 class CapturarOrderPaypal(APIView):
-
+    permission_classes = [AllowAny]
     def post(self,request,*args,**kwargs):
         print("=========>",request.data)
         try:
