@@ -2,6 +2,7 @@ from typing import Any
 from django.db import models
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser, PermissionsMixin
 from idiomas.models import Idiom
+from .signals import send_activation_email
 
 
 # Create your models here.
@@ -20,7 +21,7 @@ class UserAccountManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using = self._db)
-
+        send_activation_email(user)
         return user
 
     def create_superuser(self,email,password=None,**kwargs):

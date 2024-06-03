@@ -39,6 +39,8 @@ STRIPE_API_KEY = getenv('stripe.api_key',get_random_secret_key())
 
 ALLOWED_HOSTS=getenv('DJANGO_ALLOWED_HOSTS','127.0.0.1,localhost,idiomind-backend-production.up.railway.app,idiomind-frontend.vercel.app,idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app').split(',')
 ALLOWED_HOST_PRODUCTION = getenv('ALLOWED_HOST_PRODUCTION')
+DOMAIN = getenv('DOMAIN')
+SITE_NAME = 'idiomind'
 
 
 
@@ -184,14 +186,25 @@ REST_FRAMEWORK = {
 }
 
 
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+RESEND_SMTP_PORT = 587
+RESEND_SMTP_USERNAME = 'resend'
+RESEND_SMTP_HOST = 'smtp.resend.com'
+DEFAULT_FROM_EMAIL ="IdioMind@resend.dev"
+RESEND_API_KEY = getenv('RESEND_API_KEY')
+RESEND_SENDER = getenv('RESEND_SENDER')
+RESEND_SUBJECT = getenv('RESEND_SUBJECT')
+
+
 DJOSER = {
     'PASSWORD_RESET_CONFIRM_URL':'password-reset/{uid}/{token}',
-    'SEND_ACTIVATION_EMAIL': False,
+    'SEND_ACTIVATION_EMAIL':False,
     'ACTIVATION_URL': 'activation/{uid}/{token}',
     'USER_CREATE_PASSWORD_RETYPE': True,
     'PASSWORD_RESET_CONFIRM_RETYPE': True,
     'TOKEN_MODEL': None,
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URLS','http://127.0.0.1:3000,https://idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app,https://idiomind-frontend.vercel.app').split(',')
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': getenv('REDIRECT_URLS','http://127.0.0.1:3000/auth/google,https://idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app/auth/google,https://idiomind-frontend.vercel.app/auth/google').split(',')
 }
 
 AUTH_COOKIE = 'access'
@@ -211,8 +224,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
 ]
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 
-#CORS_ALLOWED_ORIGINS = getenv('CORS_ALLOWED_ORIGINS','http://localhost:3000,http://127.0.0.1:3000,https://idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app,https://idiomind-frontend.vercel.app,https://idiomind-backend-production.up.railway.app').split(',')
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = getenv('CORS_ALLOWED_ORIGINS','http://localhost:3000,http://127.0.0.1:3000,https://idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app,https://idiomind-frontend.vercel.app,https://idiomind-backend-production.up.railway.app').split(',')
 CORS_ALLOW_CREDENTIALS = True
 
 # Default primary key field type
