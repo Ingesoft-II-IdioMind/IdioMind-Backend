@@ -34,5 +34,5 @@ urlpatterns = [
     path('grammar/',include('Gramatica.urls')),
     path('fonetic/',include('Fonetica.urls')),
     path('post/',include('Post.urls')),
-    path('api/stripe/', include('Transacciones.urls'))
+    path('paypal/', include('Transacciones.urls'))
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
