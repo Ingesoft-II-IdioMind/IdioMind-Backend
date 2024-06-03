@@ -36,6 +36,9 @@ API_KEY = getenv('GEMINI_API_KEY',get_random_secret_key()) #key de la api de gem
 
 DEBUG = getenv('DEBUG','False') == 'True'
 STRIPE_API_KEY = getenv('stripe.api_key',get_random_secret_key())
+PAYPAL_CLIENT_ID = getenv('PAYPAL_CLIENT_ID')
+PAYPAL_CLIENT_SECRET = getenv('PAYPAL_CLIENT_SECRET')
+BASE_URL = getenv('BASE_URL')
 
 ALLOWED_HOSTS=getenv('DJANGO_ALLOWED_HOSTS','127.0.0.1,localhost,idiomind-backend-production.up.railway.app,idiomind-frontend.vercel.app,idiomind-frontend-git-h09-jeramirezcas-projects.vercel.app').split(',')
 ALLOWED_HOST_PRODUCTION = getenv('ALLOWED_HOST_PRODUCTION')

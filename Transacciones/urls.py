@@ -1,7 +1,7 @@
 from django.urls import path
-from .api import MonthlySubscriptionCheckoutView,AnnualSubscriptionCheckoutView
+from .api import CrearOrden, CapturarOrderPaypal
 
 urlpatterns = [
-    path('checkout/monthly',MonthlySubscriptionCheckoutView.as_view()),
-    path('checkout/annual',AnnualSubscriptionCheckoutView.as_view())
+    path('api/orders', CrearOrden.as_view(),),
+    path('api/orders/capture',CapturarOrderPaypal.as_view(),)
 ]
