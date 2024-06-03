@@ -13,13 +13,13 @@ def generateAccessToken():
     auth = f"{PAYPAL_CLIENT_ID}:{PAYPAL_CLIENT_SECRET}"
     auth = base64.b64encode(auth.encode()).decode("utf-8")
 
-    response = requests.post(
+    respose = requests.post(
             BASE_URL+"/v1/oauth2/token",
             data={"grant_type": "client_credentials"},
-            headers={"authorization": f"Basic {auth}"}
+            headers={"Authorization": f"Basic {auth}"}
     )
-    data = response.json()
-    return data.get("access_token")
+    data = respose.json()
+    return data["access_token"]
 
 
 def create_order(productos):
