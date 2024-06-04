@@ -36,7 +36,7 @@ class PDFDocumentUpdateSerializer(serializers.ModelSerializer):
 
 
 class TranslatePromptSerializer(serializers.Serializer):
-    word = serializers.CharField(max_length=30)
+    word = serializers.CharField(max_length=512)
     language = serializers.CharField(max_length=30)
     sentence = serializers.CharField(required=False, allow_blank=True,max_length=255)
 
