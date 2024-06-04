@@ -18,7 +18,7 @@ def translate_word(word, language, sentence=None):
     if sentence:
         prompt = "You are an assistant providing responses in JSON format. Provide the definition, description in its context, and three examples of the word " + word + " and its use in the following sentence: '" + sentence + "'. Follow this JSON format: {\"translation\":\"<your word translation to" + language + ">\", \"definition\":\"<definition in the original language>\", \"description\":\"<description in the original language>\", \"examples\":[\"<Example1>\",\"<Example2>\",\"<Example3>\"]}. Your responses (except the translation) must be in the language of the word " + word + "."
     else:
-        prompt = "You are an assistant providing responses in JSON format. Provide the definition and three examples of the word " + word + ". Follow this JSON format: {\"translation\":\"<your word translation to" + language + ">\", \"definition\":\"<definition in the original language>\", \"examples\":[\"<Example1>\",\"<Example2>\",\"<Example3>\"]}. Your responses (except the translation) must be in the language of the word " + word + "."
+        prompt = "You are an assistant providing responses in JSON format. Provide the definition and three examples of the word " + word + ". Follow this JSON format: {\"translation\":\"<your word translation to spanish>\", \"definition\":\"<definition in the spanish language>\", \"examples\":[\"<Example1>\",\"<Example2>\",\"<Example3>\"]}. Your answers must be in Spanish. avoid using commas, because it breaks the json format, use always the format json"
 
     endpoint = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
     headers = {
